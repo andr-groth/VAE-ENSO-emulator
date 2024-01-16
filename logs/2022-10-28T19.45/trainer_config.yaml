@@ -1,0 +1,77 @@
+_notes:
+  k_pair:
+  - 9
+  - 11
+  k_trend: null
+  note: 'used in VAE ENSO paper'
+beta_scheduler:
+  class_name: LogisticGrowth
+  config:
+    midpoint: 5
+    rate: 1
+    upper: 0.2
+data:
+  filename:
+  - data/rcp45/nino34/*one*.txt
+  - data/rcp45/pcs_55S60N_5dgr_1865-2005/*one*.txt
+  pc_scale: 5
+  time_interval:
+  - '1865-01-01'
+  - '2005-12-31'
+fit_generator:
+  __version__: '2022-06-04'
+  batch_size: 128
+  dtype: float32
+  ensemble_size: 38
+  ensemble_type: index
+  filter_length:
+  - 0
+  - 1
+  input_length: 16
+  prediction_channels:
+  - 0
+  - 1
+  prediction_length: 24
+  repeat_samples: 5
+  shuffle: true
+  strides: 1
+  tp_period: 12
+  validation_seed: 1
+  validation_split: 1
+model:
+  __version__: '2022-09-08'
+  activation: swish
+  beta: beta
+  cond_ens_size: 6
+  cond_size:
+  - 12
+  - 38
+  cond_units: 12
+  cond_use_scale: false
+  delta: 1
+  encoder_blocks: 3
+  fc_activation: tanh
+  fc_units: 48
+  film_temporal: true
+  filters: 20
+  gamma: 3
+  input_shape:
+  - 16
+  - 21
+  latent_dim: 14
+  learning_rate: 0.001
+  loss_weights:
+    decoder: 1
+    prediction: 3
+  padding_blocks: 1
+  pooling: null
+  prediction_shape:
+  - 24
+  - 1
+  repeat_samples: 5
+  residual_units: 1
+  set_size: 1
+model_fit:
+  epochs: 15
+prediction:
+  filters: 8
