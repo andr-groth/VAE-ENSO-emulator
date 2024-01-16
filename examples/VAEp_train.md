@@ -165,6 +165,13 @@ if INITIAL_EPOCH == 0:
             'pc_scale': 5,
             'time_interval': ['1865-01-01', '2005-12-31'],
         },
+        'data2': {
+            'filename': [
+                'data/obs/nino34/*ersst*.txt',
+                'data/obs/prj/rcp45_55S60N_5dgr_1865-2005/*ersst*.txt',
+            ],
+            'time_interval': ['1865-01-01', '2021-12-31'],
+        },
         'beta_scheduler': {
             'class_name': 'LogisticGrowth',
             'config': {
@@ -189,6 +196,13 @@ if INITIAL_EPOCH == 0:
             'validation_seed': 1,
             'dtype': 'float32',
             '__version__': generators.__version__,
+        },
+        'fit_generator2': {
+            'batch_size': 32,
+            'ensemble_sync': True,
+            'ensemble_type': 'random',
+            'initial_epoch': epochs,
+            'validation_split': '1980-09-01',
         },
         'model_fit': {
             'epochs': epochs
