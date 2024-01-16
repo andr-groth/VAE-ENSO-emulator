@@ -7,11 +7,11 @@ The notebook explores the properties of the Variational Autoencoder (VAE) traine
 2. The VAE model consists of four components: _encoder_, _latent sampling_, _decoder_, and a _second decoder for prediction_. Separate model instances are created for each component:
     * _Encoder_: The encoder takes a sample `x` and returns the mean `z_mean` and logarithmic variance `z_log_var` of the latent variable `z`.
     * _Latent Sampling_: The latent sampling takes `z_mean` and `z_log_var` as inputs and generates a random latent sample `z`.
-    * _Decoder_: The decoder reconstructs the input `x` by taking the latent sample `z` and producing the decoded output `y`. 
+    * _Decoder_: The decoder reconstructs the input `x` by taking the latent sample `z` and producing the decoded output `y`.
    * _Decoder for Prediction_: The second decoder also takes the latent sample `z` but generates a prediction output.
-   
+
 3. The model weights from the training process are loaded from the `LOG_DIR` folder.
-   
+
 4. CMIP5 and observational data is loaded.
 
 5. Properties of the `encoder` and `decoder` are analyzed.
@@ -79,7 +79,7 @@ np.set_printoptions(formatter={'float_kind': lambda x: f'{x: .3f}'}, linewidth=1
 
 ## Parameters
 
-We load the configuration from the the folder `LOG_DIR`. 
+We load the configuration from the the folder `LOG_DIR`.
 
 
 ```python
@@ -96,7 +96,7 @@ print('MODEL_FILE :', MODEL_FILE)
 
     LOG_DIR    : logs/2022-10-28T19.45
     MODEL_FILE : model.15.h5
-    
+
 
 First let's load the parameters from the model training in `trainer_config.yaml`.
 
@@ -112,7 +112,7 @@ assert params['fit_generator'].get('__version__') == generators.__version__, 'Ge
 params = SimpleNamespace(**params)
 ```
 
-Make some modifications to the parameters at inference time. 
+Make some modifications to the parameters at inference time.
 
 
 ```python
@@ -191,9 +191,9 @@ models.ks.utils.plot_model(model, show_shapes=True, dpi=75, rankdir='LR')
 
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_34_0.png)
-    
+
 
 
 
@@ -206,33 +206,33 @@ model.summary(line_length=120)
 
     Model: "mVAEp"
     ________________________________________________________________________________________________________________________
-    Layer (type)                           Output Shape               Param #       Connected to                            
+    Layer (type)                           Output Shape               Param #       Connected to
     ========================================================================================================================
-    encoder_input (InputLayer)             [(None, 1, 16, 21)]        0                                                     
+    encoder_input (InputLayer)             [(None, 1, 16, 21)]        0
     ________________________________________________________________________________________________________________________
-    encoder_cond (InputLayer)              [(None, 1, 50)]            0                                                     
+    encoder_cond (InputLayer)              [(None, 1, 50)]            0
     ________________________________________________________________________________________________________________________
-    encoder (Functional)                   [(None, 14), (None, 14)]   61606         encoder_input[0][0]                     
-                                                                                    encoder_cond[0][0]                      
+    encoder (Functional)                   [(None, 14), (None, 14)]   61606         encoder_input[0][0]
+                                                                                    encoder_cond[0][0]
     ________________________________________________________________________________________________________________________
-    latent (Functional)                    (None, 1, 14)              0             encoder[0][0]                           
-                                                                                    encoder[0][1]                           
+    latent (Functional)                    (None, 1, 14)              0             encoder[0][0]
+                                                                                    encoder[0][1]
     ________________________________________________________________________________________________________________________
-    decoder_cond (InputLayer)              [(None, 1, 50)]            0                                                     
+    decoder_cond (InputLayer)              [(None, 1, 50)]            0
     ________________________________________________________________________________________________________________________
-    prediction_cond (InputLayer)           [(None, 1, 50)]            0                                                     
+    prediction_cond (InputLayer)           [(None, 1, 50)]            0
     ________________________________________________________________________________________________________________________
-    decoder (Functional)                   (None, 1, 16, 21)          73227         latent[0][0]                            
-                                                                                    decoder_cond[0][0]                      
+    decoder (Functional)                   (None, 1, 16, 21)          73227         latent[0][0]
+                                                                                    decoder_cond[0][0]
     ________________________________________________________________________________________________________________________
-    prediction (Functional)                (None, 1, 24, 1)           26539         latent[0][0]                            
-                                                                                    prediction_cond[0][0]                   
+    prediction (Functional)                (None, 1, 24, 1)           26539         latent[0][0]
+                                                                                    prediction_cond[0][0]
     ========================================================================================================================
     Total params: 161,372
     Trainable params: 159,942
     Non-trainable params: 1,430
     ________________________________________________________________________________________________________________________
-    
+
 
 ### Load model weights
 
@@ -246,7 +246,7 @@ print('Load model weights from:', os.path.normpath(fn))
 ```
 
     Load model weights from: logs\2022-10-28T19.45\model.15.h5
-    
+
 
 ## Load data
 
@@ -272,7 +272,7 @@ print('data shape (runs, time, channels) :', data.shape)
 ```
 
     data shape (runs, time, channels) : (38, 1692, 21)
-    
+
 
 We read the names of the models.
 
@@ -287,7 +287,7 @@ with open(filename) as file:
 ```
 
     Read model names from: data\rcp45\icmip5_tos_Omon_one_rcp45_names.csv
-    
+
 
 We normalize the PCs so that their total variance matches that of the ENSO index (assumed to be the leading channel).
 
@@ -300,7 +300,7 @@ print('data is PC: ', pc_idx)
 
     data is PC:  [False  True  True  True  True  True  True  True  True  True  True  True  True  True  True  True  True  True  True
       True  True]
-    
+
 
 
 ```python
@@ -315,7 +315,7 @@ if np.any(pc_idx):
 
     PC scale: [ 5.659  9.483  19.491  23.611  18.818  29.054  31.534  24.295  45.947  24.783  17.199  29.809  44.323  54.509  33.797
       42.890  34.887  39.952  40.214  45.211]
-    
+
 
 Mean and variance of the CMIP data.
 
@@ -330,7 +330,7 @@ print(f'Variance : {np.var(data, axis=axis)} ={np.var(data): .3f}')
      -0.000 -0.000 -0.000 -0.000] = 0.000
     Variance : [ 0.752  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188  0.188
       0.188  0.188  0.188  0.188] = 0.215
-    
+
 
 We split the CMIP5 ensemble runs into separate datasets and shuffle the different runs.
 
@@ -348,7 +348,7 @@ print('Number of datasets :', len(dataset))
 
     Shape of datasets  : (1, 1692, 21)
     Number of datasets : 38
-    
+
 
 We split the datasets into a set for training and a set for validation.
 
@@ -361,7 +361,7 @@ print('Number of validation datasets :', len(dataset) - validation_split)
 
     Number of training datasets   : 38
     Number of validation datasets : 0
-    
+
 
 ### Observational data
 
@@ -389,7 +389,7 @@ print('Shape of dataset :', data2.shape)
 ```
 
     Shape of dataset : (1, 1884, 21)
-    
+
 
 We scale the PCs by the same factor as the CMIP data above.
 
@@ -421,7 +421,7 @@ print('Read EOFs from', os.path.normpath(filename))
 ```
 
     Read EOFs from data\rcp45\pcs_55S60N_5dgr_1865-2005\icmip5_tos_Omon_one_rcp45_eofs.nc
-    
+
 
 We resample the EOFs at a higher spatial resolution.
 
@@ -450,7 +450,7 @@ print('Shape of EOFs:', ieof_stack.shape)
 ```
 
     Shape of EOFs: (20, 110, 360)
-    
+
 
 ### Plot data
 
@@ -510,9 +510,8 @@ ax.set_xlim([np.datetime64('1945'), np.datetime64('2022')]);
 ```
 
 
-    
-![png](VAEp_explore_files/VAEp_explore_75_0.png)
-    
+<img src="VAEp_explore_files/VAEp_explore_75_0.png" width="50%">
+
 
 
 ## Generators
@@ -555,7 +554,7 @@ fit_gen.summary()
       targets
         decoder          : (640, 1, 16, 21)
         prediction       : (640, 1, 24, 1)
-    
+
 
 ### Reference generator
 
@@ -602,7 +601,7 @@ ref_gen.summary()
       targets
         decoder          : (960, 1, 16, 21)
         prediction       : (960, 1, 24, 1)
-    
+
 
 ## Latent space
 
@@ -617,9 +616,9 @@ fig, ax, z_order, kl_div = vplt.encoder_boxplot(encoder, fit_gen, plottype='kl',
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_87_0.png)
-    
+
 
 
 The plot shows the KL divergence of the latent variables for each of the latent dimension separately. The dimensions are sorted in descending order of the KL divergence. Latent dimensions with a high KL divergence are more important for the later reconstruction with the decoder. Latent dimensions that have a KL divergence close to zero are unused dimensions; i.e. they are practically not important for the reconstruction.
@@ -632,7 +631,7 @@ active_units = min(6, active_units)
 ```
 
     Active units: 14
-    
+
 
 The function `encoder_boxplot` also returns a sequence `z_order`, the order of the latent dimensions, which we will retain the most important dimensions for the other plots as well.
 
@@ -651,9 +650,9 @@ fig, axs = vplt.encoder_hist(encoder,
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_92_0.png)
-    
+
 
 
 The plot compares the histograms of latent samples obtained from the dataset, the so-called __aggregated posterior__ (cyan) with the prior distribution (black curve).
@@ -680,7 +679,7 @@ print('Shape of z_sample_r:', z_sample_r.shape)
 ```
 
     Shape of z_sample_r: (38, 8265, 14)
-    
+
 
 
 ```python
@@ -708,7 +707,7 @@ print(f'Oscillatory mode: {k_pair}')
 
     Trend component : None
     Oscillatory mode: (9, 11)
-    
+
 
 
 ```python
@@ -880,9 +879,9 @@ rax.spines['top'].set_visible(False)
 ```
 
 
-    
-![png](VAEp_explore_files/VAEp_explore_109_0.png)
-    
+
+<img src="VAEp_explore_files/VAEp_explore_109_0.png" width="50%">
+
 
 
 Their is a dominant oscillatory ensemble dynamics that emerges when merging the latent variables of all models. For the z-values from ERSST, we see that the majority of the El Nino events cluster in the upper-left part of the phase space and he La Nina events in the lower-right part. The transitions from El Nino to La Nina occur at a higher phase speed than transitions from La Nina to EL Nino.
@@ -936,7 +935,7 @@ print('Shape of PCs:', pcs.shape)
 ```
 
     Shape of PCs: (314070, 1, 16, 20)
-    
+
 
 There seems to be a scaling issues between the Nino index in channel 0 and the reconstruction of the Nino index by the PCs and EOFs. We correct the PCs of the decoder accordingly.
 
@@ -952,7 +951,7 @@ print(f'PC correction scale: {pc_correction:.5}')
 ```
 
     PC correction scale: 12.137
-    
+
 
 
 ```python
@@ -969,7 +968,7 @@ print('Oscillatory pair:', k_pair)
 ```
 
     Oscillatory pair: (9, 11)
-    
+
 
 We consider the ouput of the `decoder` in the Nino 3.4 region (`channel=0`),
 
@@ -991,7 +990,7 @@ z_proj = regression.predict(z_sample[:, k_pair])
 
     CPU times: total: 9.45 s
     Wall time: 7.87 s
-    
+
 
 For strong ENSO events, we define the lower and upper limits:
 
@@ -1014,7 +1013,7 @@ print(f'Average negative response: {np.mean(x_response[idx_ns]):.2f}')
 
     Average positive response: 1.44
     Average negative response: -1.39
-    
+
 
 We likewise define limits for weak ENSO events.
 
@@ -1169,9 +1168,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_136_0.png)
-    
+
 
 
 The plot shows the phase-space regions used to obtain (a) ENSO composites, (b) the decoder output, and (c) the temporal phase-space dynamics. The contourlines show isolines of the k-nearest-neighbor regression of the decoder output onto $z$.
@@ -1189,7 +1188,7 @@ print(f'Average over {sum(idx_ps)} out of {len(idx_ps)} samples')
 ```
 
     Average over 22342 out of 314070 samples
-    
+
 
 We obtain corresponding spatio-temporal composites by projecting the PC composites onto the EOFs.
 
@@ -1204,7 +1203,7 @@ print('Resulting shape :', xc_ps.shape)
     PC shape        : (16, 20)
     EOF shape       : (20, 110, 360)
     Resulting shape : (16, 110, 360)
-    
+
 
 
 ```python
@@ -1249,9 +1248,9 @@ if EXPORT:
 ```
 
 
-    
-![png](VAEp_explore_files/VAEp_explore_145_0.png)
-    
+
+<img src="VAEp_explore_files/VAEp_explore_145_0.png" width="33%">
+
 
 
 #### Strong La Niña
@@ -1265,7 +1264,7 @@ print(f'Average over {sum(idx_ns)} out of {len(idx_ns)} samples')
 ```
 
     Average over 22314 out of 314070 samples
-    
+
 
 We obtain the spatio-temporal composites by a projection onto the EOFs.
 
@@ -1287,9 +1286,8 @@ if EXPORT:
 ```
 
 
-    
-![png](VAEp_explore_files/VAEp_explore_151_0.png)
-    
+<img src="VAEp_explore_files/VAEp_explore_151_0.png" width="33%">
+
 
 
 #### Sum of strong ENSO events
@@ -1323,9 +1321,9 @@ if EXPORT:
 ```
 
 
-    
-![png](VAEp_explore_files/VAEp_explore_155_0.png)
-    
+
+<img src="VAEp_explore_files/VAEp_explore_155_0.png" width="33%">
+
 
 
 ### Significance maps
@@ -1388,7 +1386,7 @@ print(f'{confidence:.0%} Significance levels: {ci0:.2g}, {ci1:.2g}')
 
 
     95% Significance levels: 0.42, 0.58
-    
+
 
 
 ```python
@@ -1435,9 +1433,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_164_0.png)
-    
+
 
 
 ##### La Niña events
@@ -1463,9 +1461,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_167_0.png)
-    
+
 
 
 #### Strong ENSO events of low KL
@@ -1616,9 +1614,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_176_0.png)
-    
+
 
 
 ##### La Niña events
@@ -1644,9 +1642,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_179_0.png)
-    
+
 
 
 ## Forecast composites
@@ -1789,9 +1787,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_185_0.png)
-    
+
 
 
 ### VAE composites vs. KL
@@ -1813,9 +1811,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_188_0.png)
-    
+
 
 
 ### ERSST composites
@@ -1856,9 +1854,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_193_0.png)
-    
+
 
 
 ### CMIP composites
@@ -1882,9 +1880,9 @@ if EXPORT:
 ```
 
 
-    
+
 ![png](VAEp_explore_files/VAEp_explore_197_0.png)
-    
+
 
 
 ## ENSO asymmetry
@@ -2108,7 +2106,5 @@ if EXPORT:
 ```
 
 
-    
-![png](VAEp_explore_files/VAEp_explore_214_0.png)
-    
 
+![png](VAEp_explore_files/VAEp_explore_214_0.png)
