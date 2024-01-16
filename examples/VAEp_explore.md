@@ -617,7 +617,7 @@ fig, ax, z_order, kl_div = vplt.encoder_boxplot(encoder, fit_gen, plottype='kl',
 
 
 
-![png](VAEp_explore_files/VAEp_explore_87_0.png)
+<img src="VAEp_explore_files/VAEp_explore_87_0.png" width="50%">
 
 
 
