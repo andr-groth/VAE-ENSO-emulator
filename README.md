@@ -2,7 +2,7 @@
 
 ## Overview
 
-Jupyter notebooks for the implementation of a variational autoencoder (VAE) for ENSO modeling and prediction.
+Official Jupyter notebooks for the implementation of a variational autoencoder (VAE) for ENSO modeling and prediction.
 
 The work is published in
 
@@ -25,3 +25,17 @@ In this paper, historical simulations of global sea-surface temperature (SST) fr
 ## Examples
 
 Example runs of the Jupyter notebooks are available in the [`examples/`](/examples/) folder of this repository. The examples are based on the sample data in the [`data/`](/data/) folder.
+
+## Reference
+Please add a reference to the following paper if you use parts of this code:
+
+```
+@Article{Groth.Chavez.2024,
+  author           = {Groth, Andreas and Chavez, Erik},
+  journal          = {Climate Dynamics},
+  title            = {Efficient inference and learning of a generative model for {ENSO} predictions from large multi-model datasets},
+  year             = {2024},
+  doi              = {10.1007/s00382-024-07162-w},
+  publisher        = {Springer Science and Business Media LLC},
+}
+```
