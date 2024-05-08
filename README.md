@@ -1,7 +1,8 @@
 # Efficient inference and learning of a generative model for ENSO predictions from large multi-model datasets
 
-
-<img src="/examples/VAEp_explore_files/VAEp_explore_109_0.png" width="300px"/>
+<p align="center">
+  <img src="/examples/VAEp_explore_files/VAEp_explore_109_0.png" width="350"/>
+</p>
 
 
 ## Overview
