@@ -22,7 +22,14 @@ In this paper, historical simulations of global sea-surface temperature (SST) fr
 
     For more information on the data see [`data/README.md`](/data/README.md).
 
-## Examples
+## Usage
+
+The repository includes two Jupyter notebooks, one for model training and another one for model exploration.
+
+1. The model is trained with [`VAEp_train.ipynb`](/VAEp_train.ipynb)
+2. Properties of the trained model are explored with [`VAEp_explore.ipynb`](/VAEp_explore.ipynb)
+
+The weights of a trained model used to create the figures in [Groth and Chavez (2024)](https://doi.org/10.1007/s00382-024-07162-w) are provided in the [`logs/`](/logs/) folder of this repository.
 
 Example runs of the Jupyter notebooks are available in the [`examples/`](/examples/) folder of this repository. The examples are based on the sample data in the [`data/`](/data/) folder.
 
